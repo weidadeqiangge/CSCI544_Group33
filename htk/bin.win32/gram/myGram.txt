@@ -1,0 +1,41 @@
+$digit = OH | ZERO | ONE | TWO | THREE | FOUR | FIVE | SIX | SEVEN | EIGHT | NINE | TEN | ELEVEN | TWELVE | THIRTEEN | FOURTEEN | FIFTEEN | SISTEEN | SEVENTEEN |
+	EIGHTEEN | NIGHTEEN | TWENTY | THIRTY;
+$month = JANUARY |
+	FEBRUARY |
+	MARCH |
+	APRIL |
+	MAY |
+	JUNE |
+	JULY |
+	AUGUST |
+	SEPTEMBER |
+	OCTOBER |
+	NOVEMBER |
+	DECEMBER;
+$year = 2016 |
+	2017 |
+	2018 |
+	2019 |
+	2020;
+$name = SUE LAW |
+	JULIAN TYLER |
+	DAVE WOOD |
+	PHIL LEE |
+	STEVE YOUNG |
+	ROBOT DUKE |
+	SHAWN SMITH |
+	ADRIAN BRYAN |
+	LOUISE PLANT |
+	TOM WESLEY;
+$city = NEW YORK |
+	LOS ANGELES |
+	BEIJING |
+	HONGKONG |
+	LONDON |
+	PARIS |
+	MOSCOW |
+	SYDNEY |
+	RIO |
+	CAIRO;
+( SENT-START ([ I WANT [ TO ( BUY | BOOK | RESERVE ) ] ( A | ( AN AIR ) ) TICKET ] [FROM $city] [TO $city] [ON $month <$digit> [ $year ]])|( YES | Yeah | RIGHT | CORRECT )|([ NO ] ( ( [ MY NAME IS ] $name ) | ( [ ( ( [ IT IS ] STARTING FROM ) | ( ( THE | MY ) DESTINATION IS ) ) ] $city ) |
+	( [ IT IS ON ] $month <$digit> [ $year ] ) )) SENT-END )

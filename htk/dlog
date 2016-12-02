@@ -1,0 +1,61 @@
+Missing Words
+-------------
+TO
+
+Dictionary Usage Statistics
+---------------------------
+  Dictionary    TotalWords WordsUsed  TotalProns PronsUsed
+        beep    237211        101     256475        117
+     country        10          5         20          5
+      mydict       106        106        122        122
+
+107 words required, 1 missing
+
+New Phone Usage Counts
+---------------------
+  1. ah    :     5
+  2. sp    :   120
+  3. ax    :    21
+  4. ey    :    11
+  5. d     :    16
+  6. r     :    22
+  7. ia    :     5
+  8. n     :    51
+  9. ea    :     3
+ 10. ae    :     5
+ 11. jh    :     6
+ 12. ih    :    22
+ 13. l     :    15
+ 14. iy    :    20
+ 15. z     :     7
+ 16. p     :     6
+ 17. ao    :     9
+ 18. g     :     2
+ 19. s     :    28
+ 20. t     :    39
+ 21. b     :    14
+ 22. ng    :     5
+ 23. uh    :     3
+ 24. k     :    16
+ 25. ay    :    12
+ 26. ow    :    11
+ 27. eh    :    24
+ 28. v     :    11
+ 29. m     :    14
+ 30. aa    :     3
+ 31. sh    :     2
+ 32. y     :     9
+ 33. uw    :    10
+ 34. th    :    16
+ 35. f     :    13
+ 36. ua    :     1
+ 37. er    :     6
+ 38. oh    :    12
+ 39. hh    :     1
+ 40. ch    :     1
+ 41. w     :     7
+ 42. sil   :     2
+ 43. dh    :     2
+ 44. aw    :     1
+
+Dictionary ./dict/mydict created

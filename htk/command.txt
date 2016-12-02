@@ -1,0 +1,67 @@
+hparse mygram wdnet
+
+HDMan -m -w .\list\wordlist -n .\list\monophones1 -l dlog .\dict\mydict .\dict\beep .\dict\country 
+
+#training transcript to mlf by words
+perl .\script\prompts2mlf .\labels\trainwords.mlf .\labels\doubletraintranscript.txt
+perl .\script\prompts2mlf .\labels\testwords.mlf .\labels\testtranscript.txt
+#transfer train word to phones based on dict
+HLEd -l * -d .\dict\mydict -i .\labels\phones0.mlf mkphones0.led .\labels\trainwords.mlf 
+
+#use python tool to get codetr and codete
+python generatelist.py train D:\Learing_USC\CSCI_544\Project\htk\data\train
+python generatelist.py test D:\Learing_USC\CSCI_544\Project\htk\data\test
+#get MFCC features with Hcopy
+HCopy -T 1 -C .\config\config3 -S codetr.scp 
+HCopy -T 1 -C .\config\config3 -S codete.scp 
+#init hmm0 using proto
+HCompV -C .\config\config1 -f 0.01 -m -S train.scp -M .\hmms\hmm0 .\hmms\hmm0\proto
+
+#using python tools to generate hmmdefs
+python hmmdefs.py D:\Learing_USC\CSCI_544\Project\htk\hmms\hmm0 D:\Learing_USC\CSCI_544\Project\htk\list\monophones0
+
+#re estimation 
+HERest -C .\config\config1 -I .\labels\phones0.mlf -t 250.0 150.0 1000.0 -S train.scp -H .\hmms\hmm0\macros -H .\hmms\hmm0\hmmdefs -M .\hmms\hmm1 .\list\monophones0
+
+# FIX SP
+HHEd -H .\hmms\hmm4\macros -H .\hmms\hmm4\hmmdefs -M .\hmms\hmm5 sil.hed .\list\monophones1 
+# get phone based labels with sp
+HLEd -l * -d .\dict\mydict -i .\labels\phones1.mlf mkphones1.led .\labels\trainwords.mlf
+
+HERest -C .\config\config1 -I .\labels\phones1.mlf -t 250.0 150.0 1000.0 -S train.scp -H .\hmms\hmm5\macros -H .\hmms\hmm5\hmmdefs -M .\hmms\hmm6 .\list\monophones1
+
+HVite -H .\hmms\hmm7\macros -H .\hmms\hmm7\hmmdefs -S test.scp -l * -i .\result\recout_step7.mlf -w wdnet -p 0.0 -s 5.0 .\dict\mydict .\list\monophones1 
+
+HResults -I .\labels\testwords.mlf .\lists\monophone1 .\result\recout_step7.mlf 
+
+# 重新校准 需要 trainwords.mlf 里边路径为”*/S0???.lab”，修改mydict 加入silence sil一项另存为mydict1
+
+HVite -l * -o SWT -b silence -C .\config\config1 -a -H .\hmms\hmm7\macros -H .\hmms\hmm7\hmmdefs -i .\labels\aligned.mlf -m -t 350.0 -y lab -I .\labels\trainwords.mlf -S train.scp .\dict\mydict1 .\list\monophones1 
+
+HERest -C .\config\config1 -I .\labels\aligned.mlf -t 250.0 150.0 1000.0 -S train.scp -H .\hmms\hmm7\macros -H .\hmms\hmm7\hmmdefs -M .\hmms\hmm8 .\list\monophones1
+
+# triphone
+#get triphone based labels get word input triphone and triphone list
+HLEd -n .\list\triphones1 -l * -i .\labels\wintri.mlf mktri.led .\labels\aligned.mlf 
+#get triphone based hmms
+#get mktri.hed
+perl .\script\maketrihed .\list\monophones1 .\list\triphones1
+HHEd -H .\hmms\hmm9\macros -H .\hmms\hmm9\hmmdefs -M .\hmms\hmm10 mktri.hed .\list\monophones1
+#re estimation with triphones
+HERest -C .\config\config1 -I .\labels\wintri.mlf -t 250.0 150.0 1000.0 -S train.scp -H .\hmms\hmm10\macros -H .\hmms\hmm10\hmmdefs -M .\hmms\hmm11 .\list\triphones1
+#hvite with triphones
+HVite -H .\hmms\hmm12\macros -H .\hmms\hmm12\hmmdefs -S test.scp -l * -i .\reuslt\recout_step9.mlf -w wdnet -p 0.0 -s 5.0 .\dict\mydict .\list\triphones1
+
+
+
+HVite -A -D -T 1 -C .\config\inputconfig -g -H .\hmms\hmm12\macros -H .\hmms\hmm12\hmmdefs -w wdnet .\dict\mydict .\list\triphones1
+
+#TIED TRIPHONES
+perl mkclscript.prl TB 350.0 .\list\monophones1>tree.hed
+	#generate fullist that all of the members are triphones 
+HDMan -b sp -n .\list\fulllist -g global2.ded -l flog .\dict\beep-tri .\dict\beep 
+HDMan -b sp -n .\list\fulllist -g global3.ded -l flog .\dict\mydict3-tri .\dict\mydict3
+
+HHEd -H .\hmms\hmm12\macros -H .\hmms\hmm12\hmmdefs -M .\hmms\hmm13 tree.hed .\list\triphones1 > log 
+
+HVite -H .\hmms\hmm15\macros -H .\hmms\hmm15\hmmdefs -C .\config\inputconfig -w wdnet -p 0.0 -s 5.0 .\dict\mydict2 .\list\tiedlist

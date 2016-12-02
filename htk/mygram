@@ -1,0 +1,78 @@
+$digit = OH | ZERO | ONE | TWO | THREE | FOUR | FIVE | SIX | SEVEN | EIGHT | NINE | TEN | ELEVEN | TWELVE | THIRTEEN | FOURTEEN | FIFTEEN | SIXTEEN | SEVENTEEN |
+	EIGHTEEN | NINETEEN | TWENTY | THIRTY;
+$orders1 = FIRST |
+	SECOND |
+	THIRD |
+	FOURTH |
+	FIFTH |
+	SIXTH |
+	SEVENTH |
+	EIGHTH |
+	NINTH;
+$orders2 = ELEVENTH |
+	TWELFTH |
+	THIRTEENTH |
+	FOURTEENTH |
+	FIFTEENTH |
+	SIXTEENTH |
+	SEVENTEENTH |
+	EIGHTEENTH |
+	NINETEENTH;
+$tens = TENTH |
+	TWENTIETH |
+	THIRTIETH;
+$day = $orders1 |
+	$orders2 |
+	$tens |
+	(TWENTY $orders1) |
+	(THIRTY FIRST);
+$month = JANUARY |
+	FEBRUARY |
+	MARCH |
+	APRIL |
+	MAY |
+	JUNE |
+	JULY |
+	AUGUST |
+	SEPTEMBER |
+	OCTOBER |
+	NOVEMBER |
+	DECEMBER;
+$year = TWO THOUSAND AND (SIXTEEN | 
+	SEVENTEEN | 
+	EIGHTEEN | 
+	NINETEEN | 
+	TWENTY);
+$date = $month $day [$year];
+$name = (SUE LAW) |
+	(JULIAN TYLER) |
+	(DAVE WOOD) |
+	(PHIL LEE) |
+	(STEVE YOUNG) |
+	(ROBOT DUKE) |
+	(SHAWN SMITH) |
+	(ADRIAN BRYAN) |
+	(LOUISE PLANT) |
+	(TOM WESLEY);
+$city = (NEW YORK) |
+	(LOS ANGELES) |
+	BEIJING |
+	HONGKONG |
+	LONDON |
+	PARIS |
+	MOSCOW |
+	SYDNEY |
+	RIO |
+	CAIRO;
+$class = (ECONOMY |
+	BUSINESS | 
+	FIRST) CLASS;
+$trip = (ONE WAY TRIP) |
+	ROUNDTRIP;
+
+(SENT-START (
+	([I WANT [TO (BUY | BOOK | RESERVE)] (A | (AN AIR)) TICKET] FROM $city TO $city [DEPARTING ON $date]) |
+	(YES | YEAH | RIGHT | CORRECT | CONFIRM) |
+	([NO] (([MY NAME IS] $name) | ([(THE | MY) (SOURCE | DESTINATION) [CITY] IS] $city) | ([ON] $date) | ([I WANT] ($class | $trip)))) |
+	([I WANT TO] CHANGE (THE | MY) ((NAME [TO $name]) | ((SOURCE | DESTINATION) [CITY] [TO $city]) | ((DEPARTURE | RETURN) DATE [TO $date]) | (CABIN CLASS [TO $class]) | (TRIP [TO $trip])))
+) SENT-END)

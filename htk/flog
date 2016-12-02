@@ -1,0 +1,57 @@
+WARNING: no script file ./dict/mydict7.ded
+
+Dictionary Usage Statistics
+---------------------------
+  Dictionary    TotalWords WordsUsed  TotalProns PronsUsed
+     mydict7       127        127        143        143
+ mydict7-tri       127        127        143        143
+
+127 words required, 0 missing
+
+New Phone Usage Counts
+---------------------
+  1. ah    :     5
+  2. sp    :   143
+  3. ax    :    25
+  4. ey    :    15
+  5. d     :    19
+  6. r     :    26
+  7. ia    :     5
+  8. n     :    69
+  9. ea    :     3
+ 10. ae    :     6
+ 11. jh    :     7
+ 12. ih    :    32
+ 13. l     :    18
+ 14. iy    :    30
+ 15. z     :     8
+ 16. p     :     9
+ 17. ao    :    11
+ 18. g     :     2
+ 19. s     :    36
+ 20. t     :    52
+ 21. b     :    16
+ 22. ng    :     5
+ 23. uh    :     3
+ 24. k     :    21
+ 25. ay    :    13
+ 26. ow    :    11
+ 27. ch    :     3
+ 28. aa    :     5
+ 29. f     :    18
+ 30. er    :     9
+ 31. m     :    16
+ 32. eh    :    27
+ 33. v     :    13
+ 34. sh    :     2
+ 35. y     :     9
+ 36. uw    :    10
+ 37. oh    :    13
+ 38. th    :    26
+ 39. ua    :     1
+ 40. hh    :     1
+ 41. w     :     9
+ 42. aw    :     2
+ 43. dh    :     2
+
+Dictionary ./dict/mydict7-tri created
