@@ -74,8 +74,6 @@ def read_date(words, i, predicates):
 	return None;
 
 def read_year(words, i, predicates):
-	if i >= len(words):
-		return None;
 	if i+4<len(words) and words[i:i+3]==["two", "thousand", "and"] and words[i+3] in cardinal20 and words[i+4] in cardinal1:
 		return 2000 + cardinal20.index(words[i+3])*10+20 + cardinal1.index(words[i+4])+1;
 	if i+3<len(words) and words[i:i+3]==["two", "thousand", "and"] and words[i+3] in cardinal20:
@@ -114,25 +112,43 @@ def read_month_date_year(words, i, predicates):
 	month = read_month(words, i, predicates);
 	if month == None:
 		return False;
-	if words[i+1] == "the":
-		date = read_date(words, i+2, predicates);
+	if i+1<len(words) and words[i+1] == "the":
+		if i+2<len(words):
+			date = read_date(words, i+2, predicates);
+		else:
+			date = None;
 	else:
-		date = read_date(words, i+1, predicates);
+		if i+1<len(words):
+			date = read_date(words, i+1, predicates);
+		else:
+			date = None;
 	if date == None:
 		return False;
 	predicates.append(("=", prefix + "DepartureTimeMonth", month));
 	predicates.append(("=", prefix + "DepartureTimeDate", date));
 
-	if words[i+1] == "the":
+	if i+1<len(words) and words[i+1] == "the":
 		if date > 20 and date%10!=0:
-			year = read_year(words, i+4, predicates);
+			if i+4<len(words):
+				year = read_year(words, i+4, predicates);
+			else:
+				year = None;
 		else:
-			year = read_year(words, i+3, predicates);
+			if i+3<len(words):
+				year = read_year(words, i+3, predicates);
+			else:
+				year = None;
 	else:
 		if date > 20 and date%10!=0:
-			year = read_year(words, i+3, predicates);
+			if i+3<len(words):
+				year = read_year(words, i+3, predicates);
+			else:
+				year = None;
 		else:
-			year = read_year(words, i+2, predicates);
+			if i+2<len(words):
+				year = read_year(words, i+2, predicates);
+			else:
+				year = None;
 	if year != None:
 		predicates.append(("=", prefix + "DepartureTimeYear", year));
 	return True;
@@ -151,17 +167,22 @@ def understand(utterance):
 			predicates.append(("False",));
 			continue;
 
-		if i>=1 and words[i-1:i+1]==["economy", "class"]:
+		if i+1<len(words) and words[i:i+2]==["economy", "class"]:
 			predicates.append(("=", "Class", "Economy"));
-		if i>=1 and words[i-1:i+1]==["business", "class"]:
+			continue;
+		if i+1<len(words) and words[i:i+2]==["business", "class"]:
 			predicates.append(("=", "Class", "Business"));
-		if i>=1 and words[i-1:i+1]==["first", "class"]:
+			continue;
+		if i+1<len(words) and words[i:i+2]==["first", "class"]:
 			predicates.append(("=", "Class", "First"));
+			continue;
 
 		if words[i]=="roundtrip":
 			predicates.append(("=", "RoundTrip", "True"));
-		if i>=2 and words[i-2:i+1]==["one", "way", "trip"]:
+			continue;
+		if i+2<len(words) and words[i:i+3]==["one", "way", "trip"]:
 			predicates.append(("=", "RoundTrip", "False"));
+			continue;
 
 		if read_month_date_year(words, i, predicates):
 			continue;
